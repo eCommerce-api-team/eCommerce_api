@@ -3,18 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Services\CategoryService;
-use App\Http\Resources\Categories\CategoryResource;
-use App\Http\Resources\Categories\CategoryDetailsResource;
+use App\Http\Controllers\Api\ApiController;
+use App\Services\CategoryService;
+use App\Http\Resources\CategoryResource;
 
-class CategoryControllerResource extends ِApiController
+class CategoryController extends ApiController
 {
     /**
      * Display a listing of the resource.
      */
-    protected CategoryService $categoryService ;
+     
 
-    public function __construct(CategoryService $categoryService){
+    public function __construct(protected CategoryService $categoryService){
         $this->categoryService = $categoryService;
     }
 
@@ -22,7 +22,6 @@ class CategoryControllerResource extends ِApiController
     {
         $categories = $this->categoryService->getAllCategories(); 
         return $this->success(CategoryResource::collection($categories),'All Categories');
-       
     }
 
     /**
@@ -47,9 +46,7 @@ class CategoryControllerResource extends ِApiController
     public function show(int $id)
     {
         $categoryDetails = $this->categoryService->getCategoryDetails($id); 
-        return $this->success( new CategoryDetailsResource($categoryDetails),'Category Details');
-      
-         
+        return $this->success( new CategoryResource($categoryDetails),'Category Details');   
     }
 
     /**

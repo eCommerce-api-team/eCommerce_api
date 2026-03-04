@@ -5,13 +5,13 @@ use App\Models\Category;
 
 class CategoryService
 {
-public function getAllCategories(){
+    public function getAllCategories(){
 
-   return Category::all();
-}  
+    return Category::all();
+    }  
 
-public function getCategoryDetails(int $id){
+    public function getCategoryDetails(int $id){
 
-    return Category::findOrFail($id)->with('products')->get();
-}
+        return Category::with('products')->findOrFail($id);
+    }
 }
