@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\VariantResource;
 
 class ProductResource extends JsonResource
 {
@@ -20,6 +21,9 @@ class ProductResource extends JsonResource
             'slug' => $this->slug,
             'description' => $this->description,
             'base_price' => $this->base_price,
+            'variants' => VariantResource::collection(
+                $this->whenLoaded('variants')
+            )
         ];
     }
 }
