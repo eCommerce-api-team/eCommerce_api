@@ -2,8 +2,9 @@
 
 namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Product;
+use Illuminate\Database\Eloquent\Factories\Factory;
+
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\odel:variant>
  */
@@ -17,21 +18,21 @@ class VariantFactory extends Factory
     public function definition(): array
     {
         return [
-            
+
             'product_id' => Product::inRandomOrder()->first()?->id ?? 1,
 
-            'sku'        => $this->faker->unique()->bothify('SKU-####'),
-            
-            'price'      => $this->faker->randomFloat(2, 50, 500), 
-            
-            'stock'      => $this->faker->numberBetween(0, 100), 
-            
-            'color'      => $this->faker->safeColorName(), 
-            
-            'size'       => $this->faker->randomElement(['S','M','L','XL']), 
-            
+            'sku' => $this->faker->unique()->bothify('SKU-####'),
+
+            'price' => $this->faker->randomFloat(2, 50, 500),
+
+            'stock' => $this->faker->numberBetween(0, 100),
+
+            'color' => $this->faker->safeColorName(),
+
+            'size' => $this->faker->randomElement(['S', 'M', 'L', 'XL']),
+
             'created_at' => now(),
-            
+
             'updated_at' => now(),
         ];
     }

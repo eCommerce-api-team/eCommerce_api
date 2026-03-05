@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Services;
+
 use App\Models\Product;
 
 class ProductService
@@ -8,11 +9,13 @@ class ProductService
     /**
      * Create a new class instance.
      */
-    public function getAllProducts(){
-        return Product::lazyById(100);  
+    public function getAllProducts()
+    {
+        return Product::Filter($request)->get();
     }
 
-    public function getProductDetails(int $id){
+    public function getProductDetails(int $id)
+    {
         return Product::with('variants')->findOrFail($id);
     }
 }

@@ -2,8 +2,9 @@
 
 namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\Factory;
+
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\odel:cart>
  */
@@ -17,13 +18,13 @@ class CartFactory extends Factory
     public function definition(): array
     {
         return [
-        
-         'user_id' => User::inRandomOrder()->first()?->id ?? 1, 
 
-         'created_at' => now(),
-            
-         'updated_at' => now(),
-         
+            'user_id' => User::inRandomOrder()->first()?->id ?? 1,
+
+            'created_at' => now(),
+
+            'updated_at' => now(),
+
         ];
     }
 }

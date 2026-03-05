@@ -1,16 +1,19 @@
 <?php
 
 namespace App\Services;
+
 use App\Models\Category;
 
 class CategoryService
 {
-    public function getAllCategories(){
+    public function getAllCategories()
+    {
 
-    return Category::all();
-    }  
+        return Category::Filter($request)->get();
+    }
 
-    public function getCategoryDetails(int $id){
+    public function getCategoryDetails(int $id)
+    {
 
         return Category::with('products')->findOrFail($id);
     }

@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
 use App\Models\Variant;
+use Illuminate\Database\Seeder;
+
 class VariantSeeder extends Seeder
 {
     /**
@@ -12,6 +12,6 @@ class VariantSeeder extends Seeder
      */
     public function run(): void
     {
-         Variant::Factory()->count(5)->create();
+        Variant::Factory()->count(5)->create();
     }
 }

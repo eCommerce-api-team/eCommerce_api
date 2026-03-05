@@ -2,25 +2,22 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use App\Models\Cart;
-use App\Models\Variant;
+use Illuminate\Database\Eloquent\Model;
 
 class CartItem extends Model
 {
-        use HasFactory;
+    use HasFactory;
 
-protected $guarded = [];
+    protected $guarded = [];
 
-public function cart ()
-{
-    return $this->belongsTo(Cart::class);
-}
+    public function cart()
+    {
+        return $this->belongsTo(Cart::class);
+    }
 
-public function variants()
-{
-    return $this->belongsTo(Variant::class);
-} 
-
+    public function variants()
+    {
+        return $this->belongsTo(Variant::class);
+    }
 }
