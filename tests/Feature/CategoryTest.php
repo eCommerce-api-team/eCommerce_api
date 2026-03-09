@@ -12,15 +12,20 @@ class CategoryTest extends ApiBaseTest
 
     public function test_get_Categories_List(): void
     {
-        
-        $response = $this->getJson('/api/category');
+       $category = \App\Models\Category::factory()->create();
+      
+       $response = $this->getJson('/api/category');
 
         $this->assertApiSuccess($response);
     }
     
     public function test_get_Category_Details(): void
     {
-        $response = $this->getJson('/api/category/1');
+          
+    $category = \App\Models\Category::factory()->create();
+
+   
+    $response = $this->getJson('/api/category/'.$category->id);
 
         $this->assertApiSuccess($response);
     }
