@@ -19,7 +19,7 @@ class ProductController extends ApiController
 
     public function index()
     {
-        $products = $this->productService->getAllProducts($request);
+        $products = $this->productService->getAllProducts();
 
         return $this->success(ProductResource::collection($products), 'All Products');
     }

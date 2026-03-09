@@ -5,11 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Resources\VariantResource;
 use App\Services\VariantService;
-class VariantController extends Controller
+use App\Http\Controllers\Api\ApiController;
+class VariantController extends ApiController
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function __construct(protected VariantService $variantService){
         $this->variantService = $variantService;
     }

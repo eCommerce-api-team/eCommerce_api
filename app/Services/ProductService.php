@@ -6,10 +6,8 @@ use App\Models\Product;
 
 class ProductService
 {
-    /**
-     * Create a new class instance.
-     */
-    public function getAllProducts()
+    
+    public function getAllProducts($request = null)
     {
         return Product::Filter($request)->get();
     }

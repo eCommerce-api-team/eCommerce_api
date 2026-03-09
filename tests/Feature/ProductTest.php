@@ -12,6 +12,8 @@ class ProductTest extends ApiBaseTest
    
     public function test_get_Products_List(): void
     {
+       $product = \App\Models\Product::factory()->create();
+
         $response = $this->getJson('/api/product');
 
         $this->assertApiSuccess($response);
@@ -19,7 +21,9 @@ class ProductTest extends ApiBaseTest
 
     public function test_get_Product_Details(): void
     {
-        $response = $this->getJson('/api/product/1');
+       $product = \App\Models\Product::factory()->create();
+
+        $response = $this->getJson('/api/product/'.$product->id);
 
         $this->assertApiSuccess($response);
     }

@@ -6,7 +6,7 @@ use App\Models\Category;
 
 class CategoryService
 {
-    public function getAllCategories()
+    public function getAllCategories($request = null)
     {
 
         return Category::Filter($request)->get();
