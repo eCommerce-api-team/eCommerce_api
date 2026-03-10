@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -17,11 +18,15 @@ class User extends Authenticatable
      *
      * @var list<string>
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
+    protected $fillable =
+        [
+
+            'name',
+            'email',
+            'password',
+            'role',
+
+        ];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -44,5 +49,15 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function images(): MorphMany
+    {
+        return $this->morphMany(Image::class, 'imagable');
+    }
+
+    public function cart()
+    {
+        return $this->hasOne(Cart::class);
     }
 }
