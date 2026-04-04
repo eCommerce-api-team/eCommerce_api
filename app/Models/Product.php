@@ -33,6 +33,11 @@ class Product extends Model
         return $this->hasMany(Variant::class);
     }
 
+    public function orderItems()
+    {
+        return $this->hasMany(OrderItem::class);
+    }
+
     public function scopeFilter($query , $request = null)
     {
         $query->when($request?->category , function ($q) use ($request) {
