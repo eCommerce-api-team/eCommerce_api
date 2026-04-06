@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Wallet;
 use App\Models\Product;
 use App\Models\Order;
 use Illuminate\Support\Facades\DB;
@@ -14,29 +15,26 @@ class CheckoutService
         $user = auth()->user();
     
         DB::transaction(function () use ($user, $productId) {
-           
+        
+        $wallet = Wallet::where('user_id', $user->id)->lockForUpdate()->firstOrFail();
+   
         $product = Product::lockForUpdate()->findOrFail($productId);
+
             if ($product->stock < 1 ){
                 throw new Exception ('Out of stock');
             }
-
-            $product->stock -=1;  
-            $product->save();  
-
-            if ($user->wallet < 100 ){
+            if ($wallet->balance < 100 ){
                 throw new Exception ('Insufficient balance');
             }
-
-            $user->wallet -=100;  
-            $user->save(); 
-
+            
+            $wallet->decrement('balance',100);  
+            $product->decrement('stock');  
+     
             Order::create([
             'user_id' => $user->id,
             'product_id' => $product->id,
             'amount' => 100
             ]);
-
-            throw new Exception("Simulated Crash");
         });
     }
 }

@@ -29,6 +29,8 @@ class DatabaseSeeder extends Seeder
             CartSeeder::class,
 
             CartItemSeeder::class,
+            
+            WalletSeeder::class,
 
         ]);
 
