@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\Models\Wallet;
-use App\Models\Product;
+use App\Models\Variant;
 use App\Models\Order;
 use Illuminate\Support\Facades\DB;
 use Exception;
@@ -16,14 +16,14 @@ class CheckoutService
     
         DB::transaction(function () use ($user, $productId) {
         
-        $wallet = Wallet::where('user_id', $user->id)->lockForUpdate()->firstOrFail();
+        $wallet = Wallet::where('user_id', $user?->id)->lockForUpdate()->first();
    
-        $product = Product::lockForUpdate()->findOrFail($productId);
+        $product = Variant::with('products')->lockForUpdate()->findOrFail($productId);
 
             if ($product->stock < 1 ){
                 throw new Exception ('Out of stock');
             }
-            if ($wallet->balance < 100 ){
+            if ($wallet?->balance < 100 ){
                 throw new Exception ('Insufficient balance');
             }
             
