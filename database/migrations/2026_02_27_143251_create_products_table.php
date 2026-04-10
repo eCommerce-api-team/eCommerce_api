@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('slug');
             $table->text('description');
             $table->decimal('base_price');
+            $table->integer('stock');
             $table->timestamps();
         });
     }

@@ -25,7 +25,7 @@ class VariantFactory extends Factory
 
             'price' => $this->faker->randomFloat(2, 50, 500),
 
-            'stock' => $this->faker->numberBetween(0, 100),
+            'variant_stock' => $this->faker->numberBetween(0, 100),
 
             'color' => $this->faker->safeColorName(),
 

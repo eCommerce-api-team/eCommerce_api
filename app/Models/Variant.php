@@ -14,7 +14,7 @@ class Variant extends Model
            'product_id',
             'sku',
             'price',
-            'stock',
+            'variant_stock',
             'color',
             'size',
     ];

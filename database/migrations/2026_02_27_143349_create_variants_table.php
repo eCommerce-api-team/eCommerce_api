@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('product_id')->reference('id')->on('products')->onDeleteCascade();
             $table->string('sku');
             $table->decimal('price');
-            $table->integer('stock');
+            $table->integer('variant_stock');
             $table->string('color');
             $table->string('size');
             $table->timestamps();

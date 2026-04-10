@@ -19,8 +19,10 @@ class CheckOutController extends ApiController
     public function store(Request $request)
     {
         $productId = $request->input('product_id');
-        
-        $checkout = $this->CheckoutService->checkout($productId);
+
+        $amount = $request->input('amount');
+
+        $checkout = $this->CheckoutService->checkout($productId, $amount);
 
         return $this->success('Order placed successfully');
         }
