@@ -14,6 +14,7 @@ class Product extends Model
             'category_id',
             'name',
             'slug',
+            'stock',
             'description',
             'base_price',
         ];
@@ -31,6 +32,11 @@ class Product extends Model
     public function variants()
     {
         return $this->hasMany(Variant::class);
+    }
+
+    public function orderItems()
+    {
+        return $this->hasMany(OrderItem::class);
     }
 
     public function scopeFilter($query , $request = null)

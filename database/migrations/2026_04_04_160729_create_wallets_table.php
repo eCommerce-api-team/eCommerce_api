@@ -11,14 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('variants', function (Blueprint $table) {
+        Schema::create('wallets', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_id')->reference('id')->on('products')->onDeleteCascade();
-            $table->string('sku');
-            $table->decimal('price');
-            $table->integer('variant_stock');
-            $table->string('color');
-            $table->string('size');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->decimal('balance', 10, 2)->default(0);
             $table->timestamps();
         });
     }
@@ -28,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('variants');
+        Schema::dropIfExists('wallets');
     }
 };

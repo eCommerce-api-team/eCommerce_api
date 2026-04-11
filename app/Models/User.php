@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Models\Cart;
+use App\Models\Order;
+use App\Models\Wallet;
 
 class User extends Authenticatable
 {
@@ -60,4 +63,13 @@ class User extends Authenticatable
     {
         return $this->hasOne(Cart::class);
     }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    public function wallet() {
+    return $this->hasOne(Wallet::class);
+   }
 }
