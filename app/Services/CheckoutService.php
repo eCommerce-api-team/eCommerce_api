@@ -6,7 +6,8 @@ use App\Models\Wallet;
 use App\Models\Product;
 use App\Models\Order;
 use Illuminate\Support\Facades\DB;
-use Exception;
+use App\Exceptions\OutOfStockException;
+use App\Exceptions\NotEnoughBalanceException;
 
 class CheckoutService
 {
@@ -23,10 +24,10 @@ class CheckoutService
         $totalPrice = $amount * $product->base_price;
 
             if ($product->stock < $amount ){
-                throw new Exception ('Out of stock');
+                throw new OutOfStockException();
             }
             if ($wallet?->balance < $totalPrice ){
-                throw new Exception ('Insufficient balance');
+                throw new NotEnoughBalanceException();
             }
             
             $wallet->decrement('balance',$totalPrice);  
