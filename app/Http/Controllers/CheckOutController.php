@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Api\ApiController;
 use App\Services\CheckoutService;
 use Illuminate\Http\Request;
+use App\Exceptions\OutOfStockException;
+use App\Exceptions\NotEnoughBalanceException;
 
 class CheckOutController extends ApiController
 {
@@ -18,13 +20,24 @@ class CheckOutController extends ApiController
 
     public function store(Request $request)
     {
-        $productId = $request->input('product_id');
+        try
+        {
+            $productId = $request->input('product_id');
+            
+            $amount = $request->input('amount');
+            
+            $checkout = $this->CheckoutService->checkout($productId, $amount);
+            
+            return $this->success('Order placed successfully');
+        }
+        catch(OutOfStockException $e){
 
-        $amount = $request->input('amount');
-
-        $checkout = $this->CheckoutService->checkout($productId, $amount);
-
-        return $this->success('Order placed successfully');
+            return $this->error('Out Of Stock');
+        }
+        catch(NotEnoughBalanceException $e){
+            
+            return $this->error('Insufficient balance');
+        }
         }
 
 }
