@@ -17,6 +17,6 @@ class RegisterController extends ApiController
     {
         $userRegister = $this->registerService->register($request);
 
-      return $this->success(new RegisterResource($userRegister), 'User Registering Successfully');
+      return $this->success(new RegisterResource($userRegister),'User Registered Successfully');
     }
 }

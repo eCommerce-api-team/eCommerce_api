@@ -15,7 +15,11 @@ Route::get('/user', function (Request $request) {
 
 Route::post('register', [RegisterController::class ,'store']);
 Route::post('login', [LoginController::class ,'store']);
+
 Route::resource('category', CategoryController::class);
 Route::resource('product', ProductController::class);
 Route::resource('variant', VariantController::class);
-Route::resource('checkout', CheckOutController::class)->only('store');
+
+Route::middleware('auth:sanctum')->group(function () {
+ Route::resource('checkout', CheckOutController::class)->only('store');
+});

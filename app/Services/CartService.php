@@ -16,20 +16,21 @@ class CartService
         {
             throw new Exception('Register first');
         }
-       
+
         $userCart = Cart::create(['user_id'=>$user->id]);
         
-        CartItem::create([
+        $cartItem = CartItem::create([
             'cart_id' =>$userCart->id,
-            'variant_id' =>$request->product,
+            'variant_id' =>$request->variant_id,
             'quantity' =>$request->quantity,
         ]);
         
-        $cartItem =CartItem::with('variants')->first();
-
-        if ($cartItem->quantity > $cartItem->variant_stock)
+        $cartItem->load('variant');
+       
+        if ($cartItem->quantity > $cartItem->variant->variant_stock)
         {
              throw new OutOfStockException();
         }
+        return $cartItem;
     }
 }

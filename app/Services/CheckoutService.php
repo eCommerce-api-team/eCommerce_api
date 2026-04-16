@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Wallet;
+use App\Models\Variant;
 use App\Models\Product;
 use App\Models\Order;
 use Illuminate\Support\Facades\DB;
@@ -20,27 +21,29 @@ class CheckoutService
     {
         $cartItem = $this->cartService->userCart($request);
         $user = auth()->user();
-    
-        DB::transaction(function () use ($user) {
         
-        $wallet = Wallet::where('user_id', $user?->id)->lockForUpdate()->first();
+        DB::transaction(function () use ($user ,$cartItem) {
+        
+        $wallet = Wallet::where('user_id', $user->id)->lockForUpdate()->first();
    
-        $product = Product::with('variants')->lockForUpdate()->findOrFail();
+        $product = Product::with('variants')->lockForUpdate()->first();
+
+        $variant = Variant::where('product_id',$product->id);
 
         $totalPrice = $cartItem->quantity * $product->base_price;
 
             if ($wallet?->balance < $totalPrice ){
                 throw new NotEnoughBalanceException();
             }
-            
             $wallet->decrement('balance',$totalPrice);  
             $product->decrement('stock' , $cartItem->quantity);  
-            $product->decrement('variant_stock' , $cartItem->quantity);  
+            $variant->decrement('variant_stock' , $cartItem->quantity);  
      
             Order::create([
             'user_id' => $user->id,
             'product_id' => $product->id,
-            'total_amount' => $totalPrice
+            'total_amount' => $totalPrice,
+            'status' => 'pending',
             ]);
         });
     }
