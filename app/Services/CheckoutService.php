@@ -3,41 +3,47 @@
 namespace App\Services;
 
 use App\Models\Wallet;
+use App\Models\Variant;
 use App\Models\Product;
 use App\Models\Order;
 use Illuminate\Support\Facades\DB;
-use App\Exceptions\OutOfStockException;
+use App\Services\CartService;
+use App\Http\Requests\CartItemRequest;
 use App\Exceptions\NotEnoughBalanceException;
 
 class CheckoutService
 {
-    public function checkout($productId , $amount)
+    public function __construct(public CartService $cartService)
     {
+         $this->CartService = $cartService ;
+    }
+    public function checkout(CartItemRequest $request)
+    {
+        $cartItem = $this->cartService->userCart($request);
         $user = auth()->user();
-    
-        DB::transaction(function () use ($user, $productId , $amount) {
         
-        $wallet = Wallet::where('user_id', $user?->id)->lockForUpdate()->first();
+        DB::transaction(function () use ($user ,$cartItem) {
+        
+        $wallet = Wallet::where('user_id', $user->id)->lockForUpdate()->first();
    
-        $product = Product::with('variants')->lockForUpdate()->findOrFail($productId);
+        $product = Product::with('variants')->lockForUpdate()->first();
 
-        $totalPrice = $amount * $product->base_price;
+        $variant = Variant::where('product_id',$product->id);
 
-            if ($product->stock < $amount ){
-                throw new OutOfStockException();
-            }
+        $totalPrice = $cartItem->quantity * $product->base_price;
+
             if ($wallet?->balance < $totalPrice ){
                 throw new NotEnoughBalanceException();
             }
-            
             $wallet->decrement('balance',$totalPrice);  
-            $product->decrement('stock' , $amount);  
-            $product->decrement('variant_stock' , $amount);  
+            $product->decrement('stock' , $cartItem->quantity);  
+            $variant->decrement('variant_stock' , $cartItem->quantity);  
      
             Order::create([
             'user_id' => $user->id,
             'product_id' => $product->id,
-            'total_amount' => $totalPrice
+            'total_amount' => $totalPrice,
+            'status' => 'pending',
             ]);
         });
     }

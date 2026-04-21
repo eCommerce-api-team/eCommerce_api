@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Api\ApiController;
 use App\Services\CheckoutService;
-use Illuminate\Http\Request;
+use App\Http\Requests\CartItemRequest;
 use App\Exceptions\OutOfStockException;
 use App\Exceptions\NotEnoughBalanceException;
 
@@ -18,15 +18,12 @@ class CheckOutController extends ApiController
         $this->CheckoutService = $CheckoutService;
     }
 
-    public function store(Request $request)
+    public function store(CartItemRequest $request)
     {
         try
         {
-            $productId = $request->input('product_id');
             
-            $amount = $request->input('amount');
-            
-            $checkout = $this->CheckoutService->checkout($productId, $amount);
+            $checkout = $this->CheckoutService->checkout($request);
             
             return $this->success('Order placed successfully');
         }
