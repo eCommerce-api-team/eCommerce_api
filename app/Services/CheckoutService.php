@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 use App\Services\CartService;
 use App\Http\Requests\CartItemRequest;
 use App\Exceptions\NotEnoughBalanceException;
-
+use App\Events\OrderPlaced;
 class CheckoutService
 {
     public function __construct(public CartService $cartService)
@@ -39,12 +39,14 @@ class CheckoutService
             $product->decrement('stock' , $cartItem->quantity);  
             $variant->decrement('variant_stock' , $cartItem->quantity);  
      
-            Order::create([
+        $order = Order::create([
             'user_id' => $user->id,
             'product_id' => $product->id,
             'total_amount' => $totalPrice,
             'status' => 'pending',
             ]);
+           
+        event(new OrderPlaced($order));
         });
     }
 }
