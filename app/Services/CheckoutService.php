@@ -39,13 +39,14 @@ class CheckoutService
             $product->decrement('stock' , $cartItem->quantity);  
             $variant->decrement('variant_stock' , $cartItem->quantity);  
      
-            Order::create([
+        $order = Order::create([
             'user_id' => $user->id,
             'product_id' => $product->id,
             'total_amount' => $totalPrice,
             'status' => 'pending',
             ]);
-        });
+           
         event(new OrderPlaced($order));
+        });
     }
 }
