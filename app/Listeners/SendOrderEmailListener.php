@@ -4,9 +4,10 @@ namespace App\Listeners;
 
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
-use app\Events\OrderPlaced;
+use App\Events\OrderPlaced;
+use Illuminate\Support\Facades\Log;
 
-class SendOrderEmailListener implements shouldQueue
+class SendOrderEmailListener implements ShouldQueue
 {
     public function handle(OrderPlaced $event): void
     {
