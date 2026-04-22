@@ -11,4 +11,5 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         OrderPlaced::class => [SendOrderEmailListener::class]
     ];
+    
 }
