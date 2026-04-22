@@ -7,19 +7,19 @@ use App\Models\Variant;
 use App\Models\Product;
 use App\Models\Order;
 use Illuminate\Support\Facades\DB;
-use App\Services\CartService;
+use App\Services\CartItemService;
 use App\Http\Requests\CartItemRequest;
 use App\Exceptions\NotEnoughBalanceException;
 use App\Events\OrderPlaced;
 class CheckoutService
 {
-    public function __construct(public CartService $cartService)
+    public function __construct(public CartItemService $cartItemService)
     {
-         $this->CartService = $cartService ;
+         $this->CartItemService = $cartItemService ;
     }
     public function checkout(CartItemRequest $request)
     {
-        $cartItem = $this->cartService->userCart($request);
+        $cartItem = $this->cartItemService->userCart($request);
         $user = auth()->user();
         
         DB::transaction(function () use ($user ,$cartItem) {

@@ -6,6 +6,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\VariantController;
 use App\Http\Controllers\CheckOutController;
+use App\Http\Controllers\CartController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -22,4 +23,6 @@ Route::resource('variant', VariantController::class);
 
 Route::middleware('auth:sanctum')->group(function () {
  Route::resource('checkout', CheckOutController::class)->only('store');
-});
+ });
+ Route::resource('cart', CartController::class)->only('index');
+
