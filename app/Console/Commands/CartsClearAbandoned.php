@@ -18,7 +18,7 @@ class CartsClearAbandoned extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Clear abandoned carts older than 30 days';
 
     /**
      * Execute the console command.
