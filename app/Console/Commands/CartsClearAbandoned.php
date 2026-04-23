@@ -26,5 +26,7 @@ class CartsClearAbandoned extends Command
     public function handle()
     {
        $carts = Cart::where('updated_at','<', now()->subDays(30))->delete();
+         
+       $this->info('Carts cleared');
     }
 }
