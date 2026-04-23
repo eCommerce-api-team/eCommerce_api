@@ -4,6 +4,7 @@ namespace App\Services\Auth;
 use App\Models\User;
 use App\Http\Requests\Auth\RegisterRequest;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Auth\Events\Registered;
 
 class RegisterService
 {
@@ -12,10 +13,14 @@ class RegisterService
      */
     public function register(RegisterRequest $request)
     {
-       return User::create([
+       $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->email),
         ]);
+        
+        event(new Registered($user));
+
+        return $user;
     }
 }
