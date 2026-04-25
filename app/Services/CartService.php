@@ -1,36 +1,19 @@
 <?php
 
 namespace App\Services;
-use App\Models\User;
+
 use App\Models\Cart;
-use App\Models\CartItem;
-use App\Http\Requests\CartItemRequest;
 use Exception;
-use App\Exceptions\OutOfStockException;
+
 class CartService
 {
-    public function userCart(CartItemRequest $request)
+    public function userCart()
     {
         $user = auth()->user();
-        if (!$user)
-        {
+        if (! $user) {
             throw new Exception('Register first');
         }
 
-        $userCart = Cart::create(['user_id'=>$user->id]);
-        
-        $cartItem = CartItem::create([
-            'cart_id' =>$userCart->id,
-            'variant_id' =>$request->variant_id,
-            'quantity' =>$request->quantity,
-        ]);
-        
-        $cartItem->load('variant');
-       
-        if ($cartItem->quantity > $cartItem->variant->variant_stock)
-        {
-             throw new OutOfStockException();
-        }
-        return $cartItem;
+        return $userCart = Cart::create(['user_id' => $user->id]);
     }
 }

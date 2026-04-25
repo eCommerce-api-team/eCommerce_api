@@ -1,9 +1,9 @@
 <?php
 
 namespace App\Services\Auth;
-use App\Models\User;
-use App\Http\Requests\Auth\LoginRequest;
 
+use App\Http\Requests\Auth\LoginRequest;
+use App\Models\User;
 
 class LoginService
 {
@@ -12,8 +12,9 @@ class LoginService
      */
     public function login(LoginRequest $request)
     {
-        $user = User::where('email',$request->email)->first();
+        $user = User::where('email', $request->email)->first();
         $token = $user->createToken('loginToken')->plainTextToken;
-        return ['user' => $user ,'token'=>$token];
+
+        return ['user' => $user, 'token' => $token];
     }
 }

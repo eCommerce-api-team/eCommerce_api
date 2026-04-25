@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Models\Wallet;
 use App\Models\User;
+use App\Models\Wallet;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 class WalletFactory extends Factory
 {
@@ -18,7 +18,7 @@ class WalletFactory extends Factory
     public function definition(): array
     {
         return [
-         
+
             'user_id' => User::inRandomOrder()->first()?->id ?? 1,
 
             'balance' => $this->faker->randomFloat(2, 10, 100),

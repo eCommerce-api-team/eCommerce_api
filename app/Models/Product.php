@@ -39,11 +39,11 @@ class Product extends Model
         return $this->hasMany(OrderItem::class);
     }
 
-    public function scopeFilter($query , $request = null)
+    public function scopeFilter($query, $request = null)
     {
-        $query->when($request?->category , function ($q) use ($request) {
-            $q->whereHas('category' , function ($categoryQuery) use ($request){
-                $categoryQuery->where('name' , 'like' , '%' .$request->category.'%');
+        $query->when($request?->category, function ($q) use ($request) {
+            $q->whereHas('category', function ($categoryQuery) use ($request) {
+                $categoryQuery->where('name', 'like', '%'.$request->category.'%');
             });
         });
     }

@@ -3,13 +3,11 @@
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\Feature\ApiBaseTest;
 
 class VariantTest extends ApiBaseTest
 {
     use RefreshDatabase;
-    
+
     public function test_get_variant(): void
     {
         $product = \App\Models\Variant::factory()->create();
@@ -18,4 +16,4 @@ class VariantTest extends ApiBaseTest
 
         $this->assertApiSuccess($response);
     }
-} 
+}

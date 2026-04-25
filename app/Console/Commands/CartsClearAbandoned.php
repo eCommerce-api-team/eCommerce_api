@@ -2,8 +2,9 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
 use App\Models\Cart;
+use Illuminate\Console\Command;
+
 class CartsClearAbandoned extends Command
 {
     /**
@@ -25,6 +26,8 @@ class CartsClearAbandoned extends Command
      */
     public function handle()
     {
-       $carts = Cart::where('updated_at','<', now()->subDays(30))->delete();
+        $carts = Cart::where('updated_at', '<', now()->subDays(30))->delete();
+
+        $this->info('Carts cleared');
     }
 }

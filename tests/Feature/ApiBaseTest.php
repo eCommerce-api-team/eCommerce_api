@@ -3,39 +3,38 @@
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+
 class ApiBaseTest extends TestCase
 {
     use RefreshDatabase;
 
-  public function assertApiSuccess($response , $status = 200)
-  {
+    public function assertApiSuccess($response, $status = 200)
+    {
         $response->assertStatus($status);
         $response->assertJson([
-            'status' => true 
-            ]);
+            'status' => true,
+        ]);
         $response->assertJsonStructure([
-            'status' ,
-            'message' ,
-            'data'
-            ]);
-  }
+            'status',
+            'message',
+            'data',
+        ]);
+    }
 
-  public function assertApiError($response , $status = 400)
-  {
+    public function assertApiError($response, $status = 400)
+    {
         $response->assertStatus($status);
         $response->assertJson(['status' => false]);
         $response->assertJsonStructure([
-            'status' , 
-            'message'
+            'status',
+            'message',
         ]);
-  }
+    }
 
-  public function assertValidationError($response , $field)
-  {
+    public function assertValidationError($response, $field)
+    {
         $response->assertStatus(422);
         $response->assertJsonValidationErrors($field);
-  }
-   
+    }
 }

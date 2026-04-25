@@ -23,7 +23,7 @@ class CartItemRequest extends FormRequest
     {
         return [
             'variant_id' => ['required'],
-            'quantity' => ['required','integer','min:1']
+            'quantity' => ['required', 'integer', 'min:1'],
         ];
     }
 }

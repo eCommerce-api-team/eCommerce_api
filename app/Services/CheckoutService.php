@@ -2,51 +2,51 @@
 
 namespace App\Services;
 
-use App\Models\Wallet;
-use App\Models\Variant;
-use App\Models\Product;
-use App\Models\Order;
-use Illuminate\Support\Facades\DB;
-use App\Services\CartService;
-use App\Http\Requests\CartItemRequest;
 use App\Exceptions\NotEnoughBalanceException;
-use App\Events\OrderPlaced;
+use App\Http\Requests\CartItemRequest;
+use App\Models\Order;
+use App\Models\Product;
+use App\Models\Variant;
+use App\Models\Wallet;
+use Illuminate\Support\Facades\DB;
+
 class CheckoutService
 {
-    public function __construct(public CartService $cartService)
+    public function __construct(public CartItemService $cartItemService)
     {
-         $this->CartService = $cartService ;
+        $this->CartItemService = $cartItemService;
     }
+
     public function checkout(CartItemRequest $request)
     {
-        $cartItem = $this->cartService->userCart($request);
+        $cartItem = $this->cartItemService->userCart($request);
         $user = auth()->user();
-        
-        DB::transaction(function () use ($user ,$cartItem) {
-        
-        $wallet = Wallet::where('user_id', $user->id)->lockForUpdate()->first();
-   
-        $product = Product::with('variants')->lockForUpdate()->first();
 
-        $variant = Variant::where('product_id',$product->id);
+        DB::transaction(function () use ($user, $cartItem) {
 
-        $totalPrice = $cartItem->quantity * $product->base_price;
+            $wallet = Wallet::where('user_id', $user->id)->lockForUpdate()->first();
 
-            if ($wallet?->balance < $totalPrice ){
-                throw new NotEnoughBalanceException();
+            $product = Product::with('variants')->lockForUpdate()->first();
+
+            $variant = Variant::where('product_id', $product->id);
+
+            $totalPrice = $cartItem->quantity * $product->base_price;
+
+            if ($wallet?->balance < $totalPrice) {
+                throw new NotEnoughBalanceException;
             }
-            $wallet->decrement('balance',$totalPrice);  
-            $product->decrement('stock' , $cartItem->quantity);  
-            $variant->decrement('variant_stock' , $cartItem->quantity);  
-     
-        $order = Order::create([
-            'user_id' => $user->id,
-            'product_id' => $product->id,
-            'total_amount' => $totalPrice,
-            'status' => 'pending',
+            $wallet->decrement('balance', $totalPrice);
+            $product->decrement('stock', $cartItem->quantity);
+            $variant->decrement('variant_stock', $cartItem->quantity);
+
+            $order = Order::create([
+                'user_id' => $user->id,
+                'product_id' => $product->id,
+                'total_amount' => $totalPrice,
+                'status' => 'pending',
             ]);
-           
-        event(new OrderPlaced($order));
+
+            return $order;
         });
     }
 }
