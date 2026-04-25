@@ -7,6 +7,7 @@ use App\Services\CheckoutService;
 use App\Http\Requests\CartItemRequest;
 use App\Exceptions\OutOfStockException;
 use App\Exceptions\NotEnoughBalanceException;
+use App\Events\OrderPlaced;
 
 class CheckOutController extends ApiController
 {
@@ -22,8 +23,9 @@ class CheckOutController extends ApiController
     {
         try
         {
-            
             $checkout = $this->CheckoutService->checkout($request);
+
+            event(new OrderPlaced($checkout));
             
             return $this->success('Order placed successfully');
         }
@@ -35,6 +37,6 @@ class CheckOutController extends ApiController
             
             return $this->error('Insufficient balance');
         }
-        }
+    }
 
 }

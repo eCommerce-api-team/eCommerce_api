@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 use App\Services\CartItemService;
 use App\Http\Requests\CartItemRequest;
 use App\Exceptions\NotEnoughBalanceException;
-use App\Events\OrderPlaced;
+
 class CheckoutService
 {
     public function __construct(public CartItemService $cartItemService)
@@ -22,7 +22,8 @@ class CheckoutService
         $cartItem = $this->cartItemService->userCart($request);
         $user = auth()->user();
         
-        DB::transaction(function () use ($user ,$cartItem) {
+        DB::transaction(function () use ($user ,$cartItem)
+        {
         
         $wallet = Wallet::where('user_id', $user->id)->lockForUpdate()->first();
    
@@ -32,21 +33,22 @@ class CheckoutService
 
         $totalPrice = $cartItem->quantity * $product->base_price;
 
-            if ($wallet?->balance < $totalPrice ){
-                throw new NotEnoughBalanceException();
-            }
-            $wallet->decrement('balance',$totalPrice);  
-            $product->decrement('stock' , $cartItem->quantity);  
-            $variant->decrement('variant_stock' , $cartItem->quantity);  
-     
-        $order = Order::create([
+        if ($wallet?->balance < $totalPrice )
+        {
+            throw new NotEnoughBalanceException();
+        }
+        $wallet->decrement('balance',$totalPrice);  
+        $product->decrement('stock' , $cartItem->quantity);  
+        $variant->decrement('variant_stock' , $cartItem->quantity);  
+    
+        $order = Order::create
+        ([
             'user_id' => $user->id,
             'product_id' => $product->id,
             'total_amount' => $totalPrice,
             'status' => 'pending',
-            ]);
-           
-        event(new OrderPlaced($order));
+        ]);
+            return $order;
         });
     }
 }

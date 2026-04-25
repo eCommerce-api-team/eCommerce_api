@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\ApiController;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Resources\Auth\RegisterResource;
 use App\Services\Auth\RegisterService;
+use Illuminate\Auth\Events\Registered;
 
 class RegisterController extends ApiController
 {
@@ -17,6 +18,8 @@ class RegisterController extends ApiController
     {
         $userRegister = $this->registerService->register($request);
 
-      return $this->success(new RegisterResource($userRegister),'User Registered Successfully');
+        event(new Registered($userRegister));
+
+        return $this->success(new RegisterResource($userRegister),'User Registered Successfully');
     }
 }
