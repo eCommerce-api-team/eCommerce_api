@@ -15,12 +15,12 @@ class VariantResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id,
-            'sku' => $this->sku,
-            'price' => $this->price,
-            'stock' => $this->stock,
-            'color' => $this->color,
-            'size' => $this->size,
+            'id' => $this->resource->id,
+            'sku' => $this->resource->sku,
+            'price' => $this->resource->price,
+            'stock' => $this->resource->stock,
+            'color' => $this->resource->color,
+            'size' => $this->resource->size,
         ];
     }
 }

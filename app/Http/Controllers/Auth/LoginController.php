@@ -9,10 +9,7 @@ use App\Services\Auth\LoginService;
 
 class LoginController extends ApiController
 {
-    public function __construct(protected LoginService $loginService)
-    {
-        $this->LoginService = $loginService;
-    }
+    public function __construct(protected LoginService $loginService) {}
 
     public function store(LoginRequest $request)
     {

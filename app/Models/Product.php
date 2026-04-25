@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Product extends Model
 {
@@ -29,14 +31,14 @@ class Product extends Model
         return $this->belongsTo(Category::class);
     }
 
-    public function variants()
+    public function variants(): HasMany
     {
         return $this->hasMany(Variant::class);
     }
 
     public function orderItems()
     {
-        return $this->hasMany(OrderItem::class);
+        return $this->hasMany(OrderItems::class);
     }
 
     public function scopeFilter($query, $request = null)
