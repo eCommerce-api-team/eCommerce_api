@@ -8,15 +8,15 @@ class RegisterRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true; 
+        return true;
     }
 
     public function rules(): array
     {
         return [
-            'name' => ['required','string','max:255','min:2'],
+            'name' => ['required', 'string', 'max:255', 'min:2'],
 
-            'email' => ['required','string','max:255','email','unique:users,email'],
+            'email' => ['required', 'string', 'max:255', 'email', 'unique:users,email'],
 
             'password' => [
                 'required',
@@ -25,8 +25,8 @@ class RegisterRequest extends FormRequest
                 'regex:/[a-z]/',
                 'regex:/[A-Z]/',
                 'regex:/[0-9]/',
-                'regex:/[@$!%*?&]/'
-            ]
+                'regex:/[@$!%*?&]/',
+            ],
         ];
     }
 

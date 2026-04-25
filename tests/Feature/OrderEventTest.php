@@ -2,20 +2,18 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\Feature\ApiBaseTest;
-use Illuminate\Support\Facades\Event;
 use App\Events\OrderPlaced;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Event;
 
 class OrderEventTest extends ApiBaseTest
 {
     use RefreshDatabase;
-    
+
     public function test_checkout_dispatch_order_event(): void
     {
         Event::fake();
-        
+
         $user = \App\Models\User::factory()->create();
 
         $wallet = \App\Models\Wallet::factory()->create();

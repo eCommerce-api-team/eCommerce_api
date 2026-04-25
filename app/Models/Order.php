@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Models;
-use App\Models\User;
+
 use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
@@ -10,14 +10,15 @@ class Order extends Model
         'user_id',
         'total_amount',
         'status',
-    ]; 
+    ];
 
-   public function user() {
-     return $this->belongsTo(User::class);
-   } 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
-   public function orderItems() {
-     return $this->hasMany(orderItems::class);
-   } 
-    
+    public function orderItems()
+    {
+        return $this->hasMany(orderItems::class);
+    }
 }

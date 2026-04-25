@@ -3,13 +3,11 @@
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\Feature\ApiBaseTest;
 
 class OrderTest extends ApiBaseTest
 {
     use RefreshDatabase;
-    
+
     public function test_order_checkout(): void
     {
         $user = \App\Models\User::factory()->create();

@@ -13,13 +13,14 @@ class LoginController extends ApiController
     {
         $this->LoginService = $loginService;
     }
+
     public function store(LoginRequest $request)
     {
         $userLogin = $this->loginService->login($request);
 
         return $this->success([
             'user' => new LoginResource($userLogin['user']),
-            'token' => $userLogin['token']
-        ], 'User Logged in Successfully');    
+            'token' => $userLogin['token'],
+        ], 'User Logged in Successfully');
     }
 }

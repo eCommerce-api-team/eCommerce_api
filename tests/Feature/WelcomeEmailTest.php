@@ -2,11 +2,10 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
-use Illuminate\Support\Facades\Mail;
 use App\Mail\WelcomeEmail;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Mail;
+use Tests\TestCase;
 
 class WelcomeEmailTest extends TestCase
 {
@@ -16,16 +15,15 @@ class WelcomeEmailTest extends TestCase
     {
         Mail::fake();
 
-        $response = $this->postJson('api/register',[
+        $response = $this->postJson('api/register', [
             'name' => 'nadine',
             'email' => 'nadine@gmail.com',
             'password' => 'Password@123',
             'password_confirmation' => 'Password@123',
-         ]);
-        
+        ]);
+
         $response->assertOk();
 
         Mail::assertQueued(WelcomeEmail::class);
     }
-
 }

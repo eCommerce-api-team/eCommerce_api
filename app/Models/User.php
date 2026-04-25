@@ -7,14 +7,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use App\Models\Cart;
-use App\Models\Order;
-use App\Models\Wallet;
 use Laravel\Sanctum\HasApiTokens;
+
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, HasApiTokens;
+    use HasApiTokens, HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -69,7 +67,8 @@ class User extends Authenticatable
         return $this->hasMany(Order::class);
     }
 
-    public function wallet() {
-    return $this->hasOne(Wallet::class);
-   }
+    public function wallet()
+    {
+        return $this->hasOne(Wallet::class);
+    }
 }

@@ -14,12 +14,13 @@ class RegisterController extends ApiController
     {
         $this->RegisterService = $registerService;
     }
+
     public function store(RegisterRequest $request)
     {
         $userRegister = $this->registerService->register($request);
 
         event(new Registered($userRegister));
 
-        return $this->success(new RegisterResource($userRegister),'User Registered Successfully');
+        return $this->success(new RegisterResource($userRegister), 'User Registered Successfully');
     }
 }

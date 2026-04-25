@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Api\ApiController;
 use App\Http\Resources\ProductResource;
 use App\Services\ProductService;
-use Illuminate\Http\Request;
 
 class ProductController extends ApiController
 {
@@ -30,5 +29,4 @@ class ProductController extends ApiController
 
         return $this->success(new ProductResource($productDetails), 'Product Details');
     }
-
 }

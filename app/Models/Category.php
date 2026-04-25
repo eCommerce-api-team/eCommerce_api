@@ -23,9 +23,10 @@ class Category extends Model
         return $this->hasMany(Product::class);
     }
 
-    public function scopeFilter($query , $request = null){
-        $query->when($request?->name , function ($q) use ($request){
-            $q->where('name' , 'like' ,'%' . $request->name .'%');
+    public function scopeFilter($query, $request = null)
+    {
+        $query->when($request?->name, function ($q) use ($request) {
+            $q->where('name', 'like', '%'.$request->name.'%');
         });
     }
 }

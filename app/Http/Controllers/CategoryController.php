@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Api\ApiController;
 use App\Http\Resources\CategoryResource;
 use App\Services\CategoryService;
-use Illuminate\Http\Request;
 
 class CategoryController extends ApiController
 {
@@ -30,5 +29,4 @@ class CategoryController extends ApiController
 
         return $this->success(new CategoryResource($categoryDetails), 'Category Details');
     }
-
 }
