@@ -12,10 +12,7 @@ use Illuminate\Support\Facades\DB;
 
 class CheckoutService
 {
-    public function __construct(public CartItemService $cartItemService)
-    {
-        $this->CartItemService = $cartItemService;
-    }
+    public function __construct(public CartItemService $cartItemService) {}
 
     public function checkout(CartItemRequest $request)
     {

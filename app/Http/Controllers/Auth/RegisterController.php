@@ -10,10 +10,7 @@ use Illuminate\Auth\Events\Registered;
 
 class RegisterController extends ApiController
 {
-    public function __construct(protected RegisterService $registerService)
-    {
-        $this->RegisterService = $registerService;
-    }
+    public function __construct(protected RegisterService $registerService) {}
 
     public function store(RegisterRequest $request)
     {
