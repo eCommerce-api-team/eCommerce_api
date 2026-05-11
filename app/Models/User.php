@@ -8,11 +8,12 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Laravel\Cashier\Billable;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, Billable;
 
     /**
      * The attributes that are mass assignable.
@@ -26,6 +27,7 @@ class User extends Authenticatable
             'email',
             'password',
             'role',
+            'active_status',
 
         ];
 
@@ -70,5 +72,26 @@ class User extends Authenticatable
     public function wallet()
     {
         return $this->hasOne(Wallet::class);
+    }
+
+    public function isAdmin()
+    {
+        return $this->role === 'admin';
+    }
+
+    public function isCustomer()
+    {
+        return $this->role === 'customer';
+    }
+
+    public function isDelivery()
+    {
+        return $this->role === 'delivery';
+    }
+    public function scopeFilter($query, $request = null)
+    {
+        $query->when($request?->email, function ($q) use ($request) {
+            $q->where('email', 'like', '%'.$request->email.'%');
+        });
     }
 }

@@ -42,8 +42,10 @@ class CheckoutService
                 'total_amount' => $totalPrice,
                 'status' => 'pending',
             ]);
-
-            return $order;
+            
+            return [
+                $user->checkout($totalPrice,$product->name),
+                $order];
         });
     }
 }
