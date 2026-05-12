@@ -22,11 +22,11 @@ class CategoryUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-        'name' => ['sometimes', 'string', 'max:255', 'min:2'],
-         
-        'slug' => ['sometimes', 'string', 'max:255', 'min:2', 'unique:categories,slug,' . $this->category?->id],
-         
-        'description' => ['sometimes', 'string'],  
+            'name' => ['sometimes', 'string', 'max:255', 'min:2'],
+
+            'slug' => ['sometimes', 'string', 'max:255', 'min:2', 'unique:categories,slug,'.$this->category?->id],
+
+            'description' => ['sometimes', 'string'],
         ];
     }
 }

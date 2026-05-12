@@ -11,7 +11,7 @@ class OrderUpdateRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        
+
         return true;
     }
 
@@ -23,7 +23,7 @@ class OrderUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'payment_status' => ['sometimes','string']
+            'payment_status' => ['sometimes', 'string'],
         ];
     }
 }

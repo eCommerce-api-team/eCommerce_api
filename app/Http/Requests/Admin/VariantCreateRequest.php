@@ -22,17 +22,17 @@ class VariantCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-        'product_id' =>['required', 'integer', 'exists:products,id',],
-    
-        'variant_stock' => ['required', 'integer', 'min:0',],
-        
-        'price' => ['required', 'numeric', 'min:0',],
-      
-        'sku' => ['required', 'string', 'max:255', 'unique:variants,sku'],
-            
-        'color' => ['nullable', 'string', 'max:50'],
-            
-        'size' => ['nullable', 'string', 'max:50'],
+            'product_id' => ['required', 'integer', 'exists:products,id'],
+
+            'variant_stock' => ['required', 'integer', 'min:0'],
+
+            'price' => ['required', 'numeric', 'min:0'],
+
+            'sku' => ['required', 'string', 'max:255', 'unique:variants,sku'],
+
+            'color' => ['nullable', 'string', 'max:50'],
+
+            'size' => ['nullable', 'string', 'max:50'],
         ];
     }
 }

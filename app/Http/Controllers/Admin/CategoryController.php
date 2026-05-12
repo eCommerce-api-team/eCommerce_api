@@ -3,56 +3,76 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Api\ApiController;
-use App\Services\Admin\CategoryService;
-use App\Http\Requests\Admin\CategoryUpdateRequest;
 use App\Http\Requests\Admin\CategoryCreateRequest;
+use App\Http\Requests\Admin\CategoryUpdateRequest;
 use App\Http\Resources\CategoryResource;
+use App\Models\Category;
+use App\Services\Admin\CategoryService;
 
 class CategoryController extends ApiController
 {
-    public function __construct(protected CategoryService $categoryService){
-    }
-      public function index()
+    public function __construct(protected CategoryService $categoryService) {}
+
+    public function index()
     {
+        $this->authorize('viewAny', Category::class);
+
         $categories = $this->categoryService->getAllCategories();
 
-        return $this->success(CategoryResource::collection($categories), 'All categories');   
+        return $this->success(CategoryResource::collection($categories), 'All categories');
     }
+
     public function show(int $id)
     {
-        $categoryDetails = $this->categoryService->getCategoryDetails($id);
+        $category = $this->categoryService->getCategoryDetails($id);
 
-        return $this->success(new CategoryResource($categoryDetails), 'Category details');
+        $this->authorize('view', $category);
+
+        return $this->success(new CategoryResource($category), 'Category details');
     }
 
     public function update(CategoryUpdateRequest $request, int $id)
     {
-        $updateCategory = $this->categoryService->updateCategory($id, $request->validated());
+        $category = $this->categoryService->updateCategory($id, $request->validated());
 
-        return $this->success(new CategoryResource($updateCategory), 'Category updated successfully');
+        $this->authorize('update', $category);
+
+        return $this->success(new CategoryResource($category), 'Category updated successfully');
     }
+
     public function store(CategoryCreateRequest $request)
     {
+        $this->authorize('create', Category::class);
+
         $addCategory = $this->categoryService->addCategory($request->validated());
 
         return $this->success(new CategoryResource($addCategory), 'Category added successfully');
     }
+
     public function destroy(string $id)
     {
-        $deleteCategory = $this->categoryService->softDeleteCategory($id);
+        $category = $this->categoryService->softDeleteCategory($id);
 
-        return $this->success(new CategoryResource($deleteCategory), 'Category deleted successfully');
+        $this->authorize('delete', $category);
+
+        return $this->success(new CategoryResource($category), 'Category deleted successfully');
     }
+
     public function forceDelete(string $id)
     {
-        $forceDeleteCategory = $this->categoryService->deleteCategory($id);
+        $category = $this->categoryService->deleteCategory($id);
 
-        return $this->success(new CategoryResource($forceDeleteCategory), 'Category permanently deleted');
+        $this->authorize('forceDelete', $category);
+
+        return $this->success(new CategoryResource($category), 'Category permanently deleted');
     }
+
     public function restore(string $id)
     {
-        $restoreCategory = $this->categoryService->restoreCategory($id);
+        $category = $this->categoryService->restoreCategory($id);
 
-        return $this->success(new CategoryResource($restoreCategory), 'Category restored successfully');
+        $this->authorize('restore', $category);
+
+        return $this->success(new CategoryResource($category), 'Category restored successfully');
     }
 }

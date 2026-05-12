@@ -22,17 +22,17 @@ class ProductUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-        'category_id' =>['sometimes', 'integer', 'exists:categories,id',],
+            'category_id' => ['sometimes', 'integer', 'exists:categories,id'],
 
-        'name' => ['sometimes', 'string', 'max:255', 'min:2'],
-        
-        'slug' => ['sometimes', 'string', 'max:255', 'min:2', 'unique:products,slug',$this->product?->id,],
-        
-        'description' => ['sometimes', 'string'],  
-    
-        'stock' => ['sometimes', 'integer', 'min:0',],
-        
-        'base_price' => [ 'sometimes', 'numeric', 'min:0',]
+            'name' => ['sometimes', 'string', 'max:255', 'min:2'],
+
+            'slug' => ['sometimes', 'string', 'max:255', 'min:2', 'unique:products,slug', $this->product?->id],
+
+            'description' => ['sometimes', 'string'],
+
+            'stock' => ['sometimes', 'integer', 'min:0'],
+
+            'base_price' => ['sometimes', 'numeric', 'min:0'],
         ];
     }
 }

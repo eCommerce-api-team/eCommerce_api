@@ -7,11 +7,6 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CheckOutController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\VariantController;
-use App\Http\Controllers\Admin\UserController as AdminUserController;
-use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
-use App\Http\Controllers\Admin\ProductController as AdminProductController;
-use App\Http\Controllers\Admin\VariantController as AdminVariantController;
-use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -31,11 +26,11 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 Route::resource('cart', CartController::class)->only('index');
 
-//Admin Panel Api ------------------------------------
-Route::prefix('admin')->middleware(['auth-sanctum', 'role::admin'])->group(function (){
-     Route::apiResource('users', UserController::class);
-     Route::apiResource('categories', CategoryController::class);
-     Route::apiResource('products', ProductController::class);
-     Route::apiResource('variants', VariantController::class);
-     Route::apiResource('orders', OrderController::class);
+// Admin Panel Api ------------------------------------
+Route::prefix('admin')->middleware(['auth-sanctum', 'role::admin'])->group(function () {
+    Route::apiResource('users', UserController::class);
+    Route::apiResource('categories', CategoryController::class);
+    Route::apiResource('products', ProductController::class);
+    Route::apiResource('variants', VariantController::class);
+    Route::apiResource('orders', OrderController::class);
 });

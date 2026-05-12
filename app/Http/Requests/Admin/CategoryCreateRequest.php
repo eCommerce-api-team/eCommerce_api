@@ -22,11 +22,11 @@ class CategoryCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-          'name' => ['required', 'string', 'max:255', 'min:2'],
-         
-          'slug' => ['required', 'string', 'max:255', 'min:2', 'unique:categories,slug',],
-         
-          'description' => ['required', 'string'],  
+            'name' => ['required', 'string', 'max:255', 'min:2'],
+
+            'slug' => ['required', 'string', 'max:255', 'min:2', 'unique:categories,slug'],
+
+            'description' => ['required', 'string'],
         ];
     }
 }

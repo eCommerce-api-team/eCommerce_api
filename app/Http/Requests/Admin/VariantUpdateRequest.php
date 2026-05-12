@@ -22,17 +22,17 @@ class VariantUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-        'product_id' =>['sometimes', 'integer', 'exists:products,id',],
-    
-        'variant_stock' => ['sometimes', 'integer', 'min:0',],
-        
-        'price' => ['sometimes', 'numeric', 'min:0',],
-      
-        'sku' => ['sometimes', 'string', 'max:255', 'unique:variants,sku' .$this->variant?->id],
-            
-        'color' => ['nullable', 'string', 'max:50'],
-            
-        'size' => ['nullable', 'string', 'max:50'],
+            'product_id' => ['sometimes', 'integer', 'exists:products,id'],
+
+            'variant_stock' => ['sometimes', 'integer', 'min:0'],
+
+            'price' => ['sometimes', 'numeric', 'min:0'],
+
+            'sku' => ['sometimes', 'string', 'max:255', 'unique:variants,sku'.$this->variant?->id],
+
+            'color' => ['nullable', 'string', 'max:50'],
+
+            'size' => ['nullable', 'string', 'max:50'],
         ];
     }
 }

@@ -3,56 +3,76 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Api\ApiController;
-use App\Services\Admin\ProductService;
-use App\Http\Requests\Admin\ProductUpdateRequest;
 use App\Http\Requests\Admin\ProductCreateRequest;
+use App\Http\Requests\Admin\ProductUpdateRequest;
 use App\Http\Resources\ProductResource;
+use App\Models\Product;
+use App\Services\Admin\ProductService;
 
 class ProductController extends ApiController
 {
-    public function __construct(protected ProductService $productService){
-    }
-      public function index()
+    public function __construct(protected ProductService $productService) {}
+
+    public function index()
     {
+        $this->authorize('viewAny', Product::class);
+
         $products = $this->productService->getAllProducts();
 
-        return $this->success(ProductResource::collection($products), 'All products');   
+        return $this->success(ProductResource::collection($products), 'All products');
     }
+
     public function show(int $id)
     {
-        $productDetails = $this->productService->getProductDetails($id);
+        $product = $this->productService->getProductDetails($id);
 
-        return $this->success(new ProductResource($productDetails), 'Product details');
+        $this->authorize('view', $product);
+
+        return $this->success(new ProductResource($product), 'Product details');
     }
 
     public function update(ProductUpdateRequest $request, int $id)
     {
-        $updateProduct = $this->productService->updateProduct($id, $request->validated());
+        $product = $this->productService->updateProduct($id, $request->validated());
 
-        return $this->success(new ProductResource($updateProduct), 'Product updated successfully');
+        $this->authorize('update', $product);
+
+        return $this->success(new ProductResource($product), 'Product updated successfully');
     }
+
     public function store(ProductCreateRequest $request)
     {
-        $addProduct = $this->productService->addProduct($request->validated());
+        $this->authorize('create', Product::class);
 
-        return $this->success(new ProductResource($addProduct), 'Product added successfully');
+        $product = $this->productService->addProduct($request->validated());
+
+        return $this->success(new ProductResource($product), 'Product added successfully');
     }
+
     public function destroy(string $id)
     {
-        $deleteProduct = $this->productService->softDeleteProduct($id);
+        $product = $this->productService->softDeleteProduct($id);
 
-        return $this->success(new ProductResource($deleteProduct), 'Product deleted successfully');
+        $this->authorize('delete', $product);
+
+        return $this->success(new ProductResource($product), 'Product deleted successfully');
     }
+
     public function forceDelete(string $id)
     {
-        $forceDeleteProduct = $this->productService->deleteProduct($id);
+        $product = $this->productService->deleteProduct($id);
 
-        return $this->success(new ProductResource($forceDeleteProduct), 'Product permanently deleted');
+        $this->authorize('forceDelete', $product);
+
+        return $this->success(new ProductResource($product), 'Product permanently deleted');
     }
+
     public function restore(string $id)
     {
-        $restoreProduct = $this->productService->restoreProduct($id);
+        $product = $this->productService->restoreProduct($id);
 
-        return $this->success(new ProductResource($restoreProduct), 'Product restored successfully');
+        $this->authorize('restore', $product);
+
+        return $this->success(new ProductResource($product), 'Product restored successfully');
     }
 }

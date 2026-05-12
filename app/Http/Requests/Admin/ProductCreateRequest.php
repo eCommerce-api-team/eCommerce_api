@@ -22,17 +22,17 @@ class ProductCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-        'category_id' =>[  'required', 'integer', 'exists:categories,id',],
+            'category_id' => ['required', 'integer', 'exists:categories,id'],
 
-        'name' => ['required', 'string', 'max:255', 'min:2'],
-        
-        'slug' => ['required', 'string', 'max:255', 'min:2', 'unique:products,slug',],
-        
-        'description' => ['required', 'string'],  
-    
-        'stock' => ['required', 'integer', 'min:0',],
-        
-        'base_price' => [ 'required', 'numeric', 'min:0',]
+            'name' => ['required', 'string', 'max:255', 'min:2'],
+
+            'slug' => ['required', 'string', 'max:255', 'min:2', 'unique:products,slug'],
+
+            'description' => ['required', 'string'],
+
+            'stock' => ['required', 'integer', 'min:0'],
+
+            'base_price' => ['required', 'numeric', 'min:0'],
         ];
     }
 }

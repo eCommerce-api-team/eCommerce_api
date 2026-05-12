@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\Product;
 use App\Models\User;
+use App\Models\Variant;
 use App\Traits\AdminByPass;
 
-class ProductPolicy
+class VariantPolicy
 {
     use AdminByPass;
 
@@ -15,7 +15,7 @@ class ProductPolicy
         return true;
     }
 
-    public function view(User $user, Product $product): bool
+    public function view(User $user, Variant $variant): bool
     {
         return true;
     }
@@ -25,22 +25,22 @@ class ProductPolicy
         return $user->isAdmin();
     }
 
-    public function update(User $user, Product $product): bool
+    public function update(User $user, Variant $variant): bool
     {
         return $user->isAdmin();
     }
 
-    public function delete(User $user, Product $product): bool
+    public function delete(User $user, Variant $variant): bool
     {
         return $user->isAdmin();
     }
 
-    public function restore(User $user, Product $product): bool
+    public function restore(User $user, Variant $variant): bool
     {
         return $user->isAdmin();
     }
 
-    public function forceDelete(User $user, Product $product): bool
+    public function forceDelete(User $user, Variant $variant): bool
     {
         return $user->isAdmin();
     }

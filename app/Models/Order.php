@@ -23,6 +23,7 @@ class Order extends Model
     {
         return $this->hasMany(OrderItems::class);
     }
+
     public function scopeFilter($query, $request = null)
     {
         $query->when($request?->user_id, function ($q) use ($request) {
