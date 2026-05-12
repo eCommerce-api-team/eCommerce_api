@@ -7,6 +7,9 @@ use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
 use App\Models\Variant;
+use App\Observers\BaseObserver;
+use App\Observers\OrderObserver;
+use App\Observers\UserObserver;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider

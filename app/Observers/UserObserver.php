@@ -2,6 +2,8 @@
 
 namespace App\Observers;
 
+use App\Traits\LogsAudit;
+
 class UserObserver
 {
     use LogsAudit;
