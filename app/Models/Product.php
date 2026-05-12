@@ -42,6 +42,11 @@ class Product extends Model
         return $this->hasMany(OrderItems::class);
     }
 
+    public function auditLogs(): MorphMany
+    {
+        return $this->morphMany(AuditLogs::class, 'auditable');
+    }
+
     public function scopeFilter($query, $request = null)
     {
         $query->when($request?->category, function ($q) use ($request) {

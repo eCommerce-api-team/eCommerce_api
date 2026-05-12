@@ -25,6 +25,11 @@ class Category extends Model
         return $this->hasMany(Product::class);
     }
 
+    public function auditLogs(): MorphMany
+    {
+        return $this->morphMany(AuditLogs::class, 'auditable');
+    }
+
     public function scopeFilter($query, $request = null)
     {
         $query->when($request?->name, function ($q) use ($request) {

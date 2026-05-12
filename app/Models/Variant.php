@@ -30,6 +30,11 @@ class Variant extends Model
         return $this->hasMany(CartItem::class);
     }
 
+    public function auditLogs(): MorphMany
+    {
+        return $this->morphMany(AuditLogs::class, 'auditable');
+    }
+
     public function scopeFilter($query, $request = null)
     {
         $query->when($request?->product, function ($q) use ($request) {

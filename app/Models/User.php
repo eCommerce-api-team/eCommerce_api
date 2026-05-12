@@ -74,6 +74,11 @@ class User extends Authenticatable
         return $this->hasOne(Wallet::class);
     }
 
+    public function auditLogs(): MorphMany
+    {
+        return $this->morphMany(AuditLogs::class, 'auditable');
+    }
+
     public function isAdmin()
     {
         return $this->role === 'admin';
