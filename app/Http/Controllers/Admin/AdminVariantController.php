@@ -9,7 +9,7 @@ use App\Http\Resources\VariantResource;
 use App\Models\Variant;
 use App\Services\Admin\VariantService;
 
-class VariantController extends ApiController
+class AdminVariantController extends ApiController
 {
     public function __construct(protected VariantService $variantService) {}
 

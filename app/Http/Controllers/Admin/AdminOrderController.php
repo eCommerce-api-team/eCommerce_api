@@ -8,7 +8,7 @@ use App\Http\Resources\OrderResource;
 use App\Models\Order;
 use App\Services\Admin\OrderService;
 
-class OrderController extends ApiController
+class AdminOrderController extends ApiController
 {
     public function __construct(protected OrderService $orderService) {}
 

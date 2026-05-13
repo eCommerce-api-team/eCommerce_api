@@ -1,5 +1,10 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminCategoryController;
+use App\Http\Controllers\Admin\AdminOrderController;
+use App\Http\Controllers\Admin\AdminProductController;
+use App\Http\Controllers\Admin\AdminUserController;
+use App\Http\Controllers\Admin\AdminVariantController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\CartController;
@@ -27,10 +32,10 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::resource('cart', CartController::class)->only('index');
 
 // Admin Panel Api ------------------------------------
-Route::prefix('admin')->middleware(['auth-sanctum', 'role::admin'])->group(function () {
-    Route::apiResource('users', UserController::class);
-    Route::apiResource('categories', CategoryController::class);
-    Route::apiResource('products', ProductController::class);
-    Route::apiResource('variants', VariantController::class);
-    Route::apiResource('orders', OrderController::class);
+Route::prefix('admin')->middleware(['auth:sanctum'])->group(function () {
+    Route::apiResource('/users', AdminUserController::class);
+    Route::apiResource('/categories', AdminCategoryController::class);
+    Route::apiResource('/products', AdminProductController::class);
+    Route::apiResource('/variants', AdminVariantController::class);
+    Route::apiResource('/orders', AdminOrderController::class);
 });

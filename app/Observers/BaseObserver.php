@@ -8,28 +8,33 @@ class BaseObserver
 {
     use LogsAudit;
 
+    protected function actorId(): ?int
+    {
+        return app('actor_id');
+    }
+
     public function created($model)
     {
-        $this->LogActivity($model, 'created', null, $model->toArray());
+        $this->logActivity($model, 'created', null, $model->toArray(), $actorId = $this->actorId());
     }
 
     public function updated($model)
     {
-        $this->LogActivity($model, 'updated', $model->getOriginal(), $model->toArray());
+        $this->logActivity($model, 'updated', $model->getOriginal(), $model->toArray(), $actorId = $this->actorId());
     }
 
     public function deleted($model)
     {
-        $this->LogActivity($model, 'soft_deleted', $model->toArray(), null);
+        $this->logActivity($model, 'soft_deleted', $model->toArray(), null, $actorId = $this->actorId());
     }
 
     public function restored($model)
     {
-        $this->LogActivity($model, 'restored', null, $model->toArray());
+        $this->logActivity($model, 'restored', null, $model->toArray(), $actorId = $this->actorId());
     }
 
     public function forceDeleted($model)
     {
-        $this->LogActivity($model, 'force_deleted', $model->toArray(), null);
+        $this->logActivity($model, 'force_deleted', $model->toArray(), null, $actorId = $this->actorId());
     }
 }

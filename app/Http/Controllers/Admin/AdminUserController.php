@@ -8,7 +8,7 @@ use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Services\Admin\UserService;
 
-class UserController extends ApiController
+class AdminUserController extends ApiController
 {
     public function __construct(protected UserService $userService) {}
 

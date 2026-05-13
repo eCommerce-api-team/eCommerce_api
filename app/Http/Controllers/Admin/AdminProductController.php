@@ -9,7 +9,7 @@ use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use App\Services\Admin\ProductService;
 
-class ProductController extends ApiController
+class AdminProductController extends ApiController
 {
     public function __construct(protected ProductService $productService) {}
 

@@ -9,7 +9,7 @@ use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use App\Services\Admin\CategoryService;
 
-class CategoryController extends ApiController
+class AdminCategoryController extends ApiController
 {
     public function __construct(protected CategoryService $categoryService) {}
 
