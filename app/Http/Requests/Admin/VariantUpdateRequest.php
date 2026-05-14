@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class VariantUpdateRequest extends FormRequest
 {
@@ -21,6 +22,8 @@ class VariantUpdateRequest extends FormRequest
      */
     public function rules(): array
     {
+        $variantId = $this->route('id');
+
         return [
             'product_id' => ['sometimes', 'integer', 'exists:products,id'],
 
@@ -28,7 +31,7 @@ class VariantUpdateRequest extends FormRequest
 
             'price' => ['sometimes', 'numeric', 'min:0'],
 
-            'sku' => ['sometimes', 'string', 'max:255', 'unique:variants,sku'.$this->variant?->id],
+            'sku' => ['sometimes', 'string', 'max:255', Rule::unique('variants', 'sku')->ignore($variantId)],
 
             'color' => ['nullable', 'string', 'max:50'],
 

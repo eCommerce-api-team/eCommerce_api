@@ -35,7 +35,6 @@ class VariantFactory extends Factory
 
             'updated_at' => now(),
 
-            'deleted_at' => null,
         ];
     }
 }

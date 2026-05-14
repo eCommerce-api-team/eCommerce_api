@@ -32,7 +32,7 @@ class ProductTest extends TestCase
         return [
             'name' => 'nada',
             'category_id' => $category->id,
-            'slug' => fake()->unique()->slug(),
+            'slug' => 'unique-slug-'.time(),
             'description' => 'Latest iPhone',
             'stock' => 10,
             'base_price' => 1000,

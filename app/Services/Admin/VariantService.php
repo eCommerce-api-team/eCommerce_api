@@ -11,7 +11,7 @@ class VariantService
         return $variants = Variant::Filter($request)->paginate($perPage);
     }
 
-    public function getVariantVariant(int $id)
+    public function getVariantDetails(int $id)
     {
         return $variant = Variant::findOrFail($id);
     }

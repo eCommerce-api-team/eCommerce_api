@@ -2,6 +2,8 @@
 
 namespace Tests\Feature\Admin;
 
+use App\Models\Category;
+use App\Models\Product;
 use App\Models\Variant;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\Traits\AdminCrudAssertions;
@@ -26,15 +28,25 @@ class VariantTest extends TestCase
 
     protected function storeValidData(): array
     {
+        $category = Category::factory()->create();
+        $product = Product::factory()->create([
+            'category_id' => $category->id,
+        ]);
+
         return [
-            'name' => 'white',
+            'product_id' => $product->id,
+            'sku' => 'SKU-4908',
+            'price' => 10,
+            'variant_stock' => 3,
+            'color' => 'white',
+            'size' => 50,
         ];
     }
 
     protected function updateValidData(): array
     {
         return [
-            'name' => 'black',
+            'color' => 'black',
         ];
     }
 }

@@ -32,10 +32,16 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::resource('cart', CartController::class)->only('index');
 
 // Admin Panel Api ------------------------------------
-Route::prefix('admin')->middleware(['auth:sanctum'])->group(function () {
+Route::prefix('admin')->middleware('auth:sanctum')->group(function () {
     Route::apiResource('/users', AdminUserController::class);
     Route::apiResource('/categories', AdminCategoryController::class);
+    Route::patch('categories/{category}/restore', [AdminCategoryController::class, 'restore']);
+    Route::delete('categories/{category}/force', [AdminCategoryController::class, 'forceDelete']);
     Route::apiResource('/products', AdminProductController::class);
+    Route::patch('products/{product}/restore', [AdminProductController::class, 'restore']);
+    Route::delete('products/{product}/force', [AdminProductController::class, 'forceDelete']);
     Route::apiResource('/variants', AdminVariantController::class);
+    Route::patch('variants/{variant}/restore', [AdminVariantController::class, 'restore']);
+    Route::delete('variants/{variant}/force', [AdminVariantController::class, 'forceDelete']);
     Route::apiResource('/orders', AdminOrderController::class);
 });

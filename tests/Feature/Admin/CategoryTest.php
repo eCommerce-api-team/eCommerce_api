@@ -27,7 +27,9 @@ class CategoryTest extends TestCase
     protected function storeValidData(): array
     {
         return [
-            'name' => 'Elect',
+            'name' => 'elect',
+            'slug' => 'unique-slug-'.time(),
+            'description' => 'elect',
         ];
     }
 
