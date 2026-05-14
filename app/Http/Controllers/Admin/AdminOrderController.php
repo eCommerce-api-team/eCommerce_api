@@ -23,7 +23,7 @@ class AdminOrderController extends ApiController
 
     public function show(int $id)
     {
-        $order = $this->orderService->getOrderDetails($id);
+        $order = $this->orderService->getOrder($id);
 
         $this->authorize('view', $order);
 

@@ -21,6 +21,7 @@ class UserUpdateRequest extends FormRequest
      */
     public function rules(): array
     {
+
         return [
             'active_status' => ['sometimes', 'boolean'],
         ];

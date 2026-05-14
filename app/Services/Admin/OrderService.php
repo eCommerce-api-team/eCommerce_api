@@ -16,7 +16,7 @@ class OrderService
         return $order = Order::findOrFail($id);
     }
 
-    public function refundOrder(int $id, array $data)
+    public function updateOrder(int $id, array $data)
     {
         $order = Order::findOrFail($id);
         $order->update([
