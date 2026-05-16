@@ -22,20 +22,20 @@ class AdminProductController extends ApiController
         return $this->success(ProductResource::collection($products), 'All products');
     }
 
-    public function show(int $id)
+    public function show(Product $product)
     {
-        $product = $this->productService->getProductDetails($id);
-
         $this->authorize('view', $product);
+
+        $product = $this->productService->getProductDetails($product->id);
 
         return $this->success(new ProductResource($product), 'Product details');
     }
 
-    public function update(ProductUpdateRequest $request, int $id)
+    public function update(ProductUpdateRequest $request, Product $product)
     {
-        $product = $this->productService->updateProduct($id, $request->validated());
-
         $this->authorize('update', $product);
+
+        $product = $this->productService->updateProduct($product->id, $request->validated());
 
         return $this->success(new ProductResource($product), 'Product updated successfully');
     }
@@ -49,29 +49,33 @@ class AdminProductController extends ApiController
         return $this->success(new ProductResource($product), 'Product added successfully');
     }
 
-    public function destroy(string $id)
+    public function destroy(Product $product)
     {
-        $product = $this->productService->softDeleteProduct($id);
-
         $this->authorize('delete', $product);
+
+        $product = $this->productService->softDeleteProduct($product->id);
 
         return $this->success(new ProductResource($product), 'Product deleted successfully');
     }
 
-    public function forceDelete(string $id)
+    public function forceDelete(int $id)
     {
-        $product = $this->productService->deleteProduct($id);
+        $product = Product::withTrashed()->findOrFail($id);
 
         $this->authorize('forceDelete', $product);
+
+        $this->productService->deleteProduct($id);
 
         return $this->success(new ProductResource($product), 'Product permanently deleted');
     }
 
-    public function restore(string $id)
+    public function restore(int $id)
     {
-        $product = $this->productService->restoreProduct($id);
+        $product = product::withTrashed()->findOrFail($id);
 
         $this->authorize('restore', $product);
+
+        $product = $this->productService->restoreProduct($id);
 
         return $this->success(new ProductResource($product), 'Product restored successfully');
     }

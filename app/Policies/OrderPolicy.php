@@ -15,9 +15,9 @@ class OrderPolicy
         return $user->isAdmin();
     }
 
-    public function view(User $user, User $targetUser): bool
+    public function view(User $user, User $order): bool
     {
-        return $user->id === $targetUser || $user->isAdmin();
+        return $user->id === $order || $user->isAdmin();
     }
 
     public function update(User $user, Order $order): bool

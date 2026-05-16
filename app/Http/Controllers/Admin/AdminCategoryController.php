@@ -22,25 +22,25 @@ class AdminCategoryController extends ApiController
         return $this->success(CategoryResource::collection($categories), 'All categories');
     }
 
-    public function show(int $id)
+    public function show(Category $category)
     {
-        $category = $this->categoryService->getCategoryDetails($id);
-
         $this->authorize('view', $category);
+
+        $category = $this->categoryService->getCategoryDetails($category->id);
 
         return $this->success(new CategoryResource($category), 'Category details');
     }
 
-    public function update(CategoryUpdateRequest $request, int $id)
+    public function update(CategoryUpdateRequest $request, Category $category)
     {
-        $category = $this->categoryService->updateCategory($id, $request->validated());
-
         $this->authorize('update', $category);
+
+        $category = $this->categoryService->updateCategory($category->id, $request->validated());
 
         return $this->success(new CategoryResource($category), 'Category updated successfully');
     }
 
-    public function store(CategoryCreateRequest $request)
+    public function store(CategoryCreateRequest $request, Category $category)
     {
         $this->authorize('create', Category::class);
 
@@ -49,29 +49,33 @@ class AdminCategoryController extends ApiController
         return $this->success(new CategoryResource($addCategory), 'Category added successfully');
     }
 
-    public function destroy(string $id)
+    public function destroy(Category $category)
     {
-        $category = $this->categoryService->softDeleteCategory($id);
-
         $this->authorize('delete', $category);
+
+        $category = $this->categoryService->softDeleteCategory($category->id);
 
         return $this->success(new CategoryResource($category), 'Category deleted successfully');
     }
 
-    public function forceDelete(string $id)
+    public function forceDelete(int $id)
     {
-        $category = $this->categoryService->deleteCategory($id);
+        $category = Category::withTrashed()->findOrFail($id);
 
         $this->authorize('forceDelete', $category);
+
+        $this->categoryService->deleteCategory($id);
 
         return $this->success(new CategoryResource($category), 'Category permanently deleted');
     }
 
-    public function restore(string $id)
+    public function restore(int $id)
     {
-        $category = $this->categoryService->restoreCategory($id);
+        $category = Category::withTrashed()->findOrFail($id);
 
         $this->authorize('restore', $category);
+
+        $category = $this->categoryService->restoreCategory($id);
 
         return $this->success(new CategoryResource($category), 'Category restored successfully');
     }

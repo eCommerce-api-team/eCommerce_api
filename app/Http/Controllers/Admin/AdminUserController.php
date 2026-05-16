@@ -21,20 +21,20 @@ class AdminUserController extends ApiController
         return $this->success(UserResource::collection($users), 'All users');
     }
 
-    public function show(int $id)
+    public function show(User $user)
     {
-        $user = $this->userService->getUserDetails($id);
-
         $this->authorize('view', $user);
+
+        $user = $this->userService->getUserDetails($user->id);
 
         return $this->success(new UserResource($user), 'User Details');
     }
 
-    public function update(UserUpdateRequest $request, int $id)
+    public function update(UserUpdateRequest $request, User $user)
     {
-        $user = $this->userService->deactivateUser($id);
-
         $this->authorize('update', $user);
+
+        $user = $this->userService->deactivateUser($user->id);
 
         return $this->success(new UserResource($user), 'User Deactivate Successfully');
     }

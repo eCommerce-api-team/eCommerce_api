@@ -21,20 +21,20 @@ class AdminOrderController extends ApiController
         return $this->success(OrderResource::collection($orders), 'All orders');
     }
 
-    public function show(int $id)
+    public function show(Order $order)
     {
-        $order = $this->orderService->getOrder($id);
-
         $this->authorize('view', $order);
+
+        $order = $this->orderService->getOrder($order->id);
 
         return $this->success(new OrderResource($order), 'Order details');
     }
 
-    public function update(OrderUpdateRequest $request, int $id)
+    public function update(OrderUpdateRequest $request, Order $order)
     {
-        $order = $this->orderService->updateOrder($id, $request->validated());
-
         $this->authorize('update', $order);
+
+        $order = $this->orderService->updateOrder($order->id, $request->validated());
 
         return $this->success(new OrderResource($order), 'Order updated successfully');
     }

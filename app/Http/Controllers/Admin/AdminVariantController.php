@@ -22,20 +22,20 @@ class AdminVariantController extends ApiController
         return $this->success(VariantResource::collection($variants), 'All variants');
     }
 
-    public function show(int $id)
+    public function show(Variant $variant)
     {
-        $variant = $this->variantService->getVariantDetails($id);
-
         $this->authorize('view', $variant);
+
+        $variant = $this->variantService->getVariantDetails($variant->id);
 
         return $this->success(new VariantResource($variant), 'Variant details');
     }
 
-    public function update(VariantUpdateRequest $request, int $id)
+    public function update(VariantUpdateRequest $request, Variant $variant)
     {
-        $variant = $this->variantService->updateVariant($id, $request->validated());
-
         $this->authorize('update', $variant);
+
+        $variant = $this->variantService->updateVariant($variant->id, $request->validated());
 
         return $this->success(new VariantResource($variant), 'variant updated successfully');
     }
@@ -49,30 +49,34 @@ class AdminVariantController extends ApiController
         return $this->success(new VariantResource($addVariant), 'Variant added successfully');
     }
 
-    public function destroy(string $id)
+    public function destroy(Variant $variant)
     {
-        $variant = $this->variantService->softDeleteVariant($id);
-
         $this->authorize('delete', $variant);
+
+        $variant = $this->variantService->softDeleteVariant($variant->id);
 
         return $this->success(new VariantResource($variant), 'variant deleted successfully');
     }
 
-    public function forceDelete(string $id)
+    public function forceDelete(int $id)
     {
-        $variant = $this->variantService->deleteVariant($id);
+        $variant = Variant::withTrashed()->findOrFail($id);
 
         $this->authorize('forceDelete', $variant);
 
-        return $this->success(new VariantResource($variant), 'variant permanently deleted');
+        $this->variantService->deleteVariant($id);
+
+        return $this->success(new VariantResource($variant), 'Variant permanently deleted');
     }
 
-    public function restore(string $id)
+    public function restore(int $id)
     {
-        $variant = $this->variantService->restoreVariant($id);
+        $variant = Variant::withTrashed()->findOrFail($id);
 
         $this->authorize('restore', $variant);
 
-        return $this->success(new VariantResource($variant), 'variant restored successfully');
+        $variant = $this->variantService->restoreVariant($id);
+
+        return $this->success(new VariantResource($variant), 'Variant restored successfully');
     }
 }

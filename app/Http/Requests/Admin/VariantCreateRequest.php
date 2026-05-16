@@ -32,7 +32,7 @@ class VariantCreateRequest extends FormRequest
 
             'color' => ['nullable', 'string', 'max:50'],
 
-            'size' => ['nullable', 'string', 'max:50'],
+            'size' => ['nullable', 'integer', 'max:50'],
         ];
     }
 }

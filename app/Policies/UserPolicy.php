@@ -16,7 +16,7 @@ class UserPolicy
 
     public function view(User $user, User $targetUser): bool
     {
-        return $user->id === $targetUser || $user->isAdmin();
+        return $user->id === $targetUser->id || $user->isAdmin();
     }
 
     public function update(User $user): bool
