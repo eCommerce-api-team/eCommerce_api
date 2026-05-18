@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Models\Order;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Foundation\Events\Dispatchable;
@@ -14,10 +15,7 @@ class OrderPlaced
     /**
      * Create a new event instance.
      */
-    public function __construct(public $order)
-    {
-        $this->order = $order;
-    }
+    public function __construct(public Order $order) {}
 
     /**
      * Get the channels the event should broadcast on.
