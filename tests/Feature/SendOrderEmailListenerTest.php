@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Events\OrderPlaced;
 use App\Listeners\SendOrderEmailListener;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Support\ApiBaseTest;
 
 class SendOrderEmailListenerTest extends ApiBaseTest
 {

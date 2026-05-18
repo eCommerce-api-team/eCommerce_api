@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Events\OrderPlaced;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
+use Tests\Support\ApiBaseTest;
 
 class OrderEventTest extends ApiBaseTest
 {
