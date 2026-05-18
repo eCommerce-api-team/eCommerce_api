@@ -19,13 +19,13 @@ class CheckoutService
         $cartItem = $this->cartItemService->userCart($request);
         $user = auth()->user();
 
-        DB::transaction(function () use ($user, $cartItem) {
+        return DB::transaction(function () use ($user, $cartItem) {
 
             $wallet = Wallet::where('user_id', $user->id)->lockForUpdate()->first();
 
             $product = Product::with('variants')->lockForUpdate()->first();
 
-            $variant = Variant::where('product_id', $product->id);
+            $variant = Variant::where('product_id', $product->id)->first();
 
             $totalPrice = $cartItem->quantity * $product->base_price;
 
@@ -43,9 +43,7 @@ class CheckoutService
                 'status' => 'pending',
             ]);
 
-            return [
-                $user->checkout($totalPrice, $product->name),
-                $order];
+            return $order;
         });
     }
 }
